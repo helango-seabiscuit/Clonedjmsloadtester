@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+<bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
+<property name="environment" ref="jndiProperties" />
+</bean>
+ 
+<!-- This is the standalone version JMS connectionFactory -->
+<bean id="connectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+   <property name="jndiTemplate">
+         <ref bean="jndiTemplate" />        
+   </property> 
+   <property name="jndiName" value="ConnectionFactory" />
+</bean>
+
+	<bean id="jndiProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location">
+			<value>file:src/main/java/res/jndi.properties</value>
+		</property>
+</bean>
+</beans>

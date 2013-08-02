@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ *   JMS Load Tester
+ *   Copyright (C) 2008 Marcel Sauer <marcel[underscore]sauer[at]gmx.de>
+ *   
+ *   This file is part of JMS Load Tester.
+ *
+ *   JMS Load Tester is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   JMS Load Tester is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with JMS Load Tester. If not, see <http://www.gnu.org/licenses/>.
+ */
+ -->
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="destinationHandler" class="de.marcelsauer.jmsloadtester.handler.DestinationHandlerImpl">
+		<constructor-arg ref="jndiTemplate" />
+	</bean>
+	
+	<bean id="connectionHandler" class="de.marcelsauer.jmsloadtester.handler.ConnectionHandlerImpl" singleton="false">
+		<constructor-arg ref="connectionFactory" />
+	</bean>
+	
+	<bean id="sessionHandler" class="${javax.jms.session.handler}" singleton="false">
+		<constructor-arg type="java.lang.String" value="${javax.jms.session.acknowledge.mode}"/>
+	</bean>
+	
+	<bean id="messageHandler" class="de.marcelsauer.jmsloadtester.handler.MessageHandlerImpl" singleton="false">
+		<property name="destinationHandler" ref="destinationHandler" />
+		<property name="sessionHandler" ref="sessionHandler" />
+		<property name="messageFactory" ref="messageFactory" />
+		<property name="messageTracker" ref="messageTracker" />
+		<property name="threadTracker" ref="threadTracker" />
+		<property name="connectionHandler" ref="connectionHandler" />
+		<property name="config" ref="config" />
+	</bean>
+	
+</beans>

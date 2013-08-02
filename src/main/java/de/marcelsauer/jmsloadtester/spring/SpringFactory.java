@@ -20,7 +20,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class SpringFactory {
 
-    private static final String[] configLocations = new String[]{"./conf/spring/*-appCtx.xml"};
+    private static final String[] configLocations = new String[]{"src/main/java/res/*-appCtx.xml"};
     private static final ApplicationContext appCtx = new FileSystemXmlApplicationContext(configLocations);
 
     public static synchronized ApplicationContext getAppCtx() {
